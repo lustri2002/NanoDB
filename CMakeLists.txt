@@ -6,4 +6,5 @@ set(CMAKE_CXX_STANDARD 20)
 add_executable(NanoDB main.cpp
         DBEngine.h
         InMemoryEngine.h
-        InMemoryEngine.cpp)
+        InMemoryEngine.cpp
+        FileEngine.h)
