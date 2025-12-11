@@ -6,8 +6,12 @@
 #include <sstream>
 #include <iostream>
 #include <string>
+#include <memory>
+#include <vector>
 #include "ShellInterface.h"
-
+extern "C" {
+#include "linenoise.h"
+}
 inline static const std::string EXIT = "exit";
 
 static void printHelp() {
@@ -21,18 +25,30 @@ static void printHelp() {
     std::cout << "--------------------------------------\n";
 }
 
-static void printPrompt(const std::string& dbName) {
-    std::cout << "NanoDB[" << dbName << "]>";
-}
+
 
 void shellInterface() {
-    std::string currentDBname = "default";
-    std::unique_ptr<BinaryEngine> db = std::make_unique<BinaryEngine>(currentDBname);
-    std::string line;
-    while (true) {
-        printPrompt(currentDBname);
+    std::string currentDBName = "default";
+    std::unique_ptr<BinaryEngine> db = std::make_unique<BinaryEngine>(currentDBName);
 
-        std::getline(std::cin, line);
+    // Configurazione Cronologia
+    linenoiseHistorySetMaxLen(100);
+
+    char* line_raw;
+
+    // LOOP PRINCIPALE CON LINENOISE
+    while ((line_raw = linenoise(("NanoDB [" + currentDBName + "]> ").c_str())) != NULL) {
+
+        std::string line = line_raw;
+
+        // Aggiungi alla cronologia
+        if (!line.empty()) {
+            linenoiseHistoryAdd(line_raw);
+        }
+        linenoiseFree(line_raw); // Importante: liberare la memoria C
+
+        if (line.empty()) continue;
+
         std::stringstream ss(line);
         std::string command;
         std::string key;
@@ -47,11 +63,11 @@ void shellInterface() {
             std::string newName;
             ss >> newName;
             if (newName.empty()) {
-                std::cout << "Error: missing required parameter: name";
-            }else {
+                std::cout << "Error: missing required parameter: name\n";
+            } else {
                 db = std::make_unique<BinaryEngine>(newName);
-                currentDBname = newName;
-                std::cout << "Switched to database: " << currentDBname << std::endl;
+                currentDBName = newName;
+                std::cout << "Switched to database: " << currentDBName << "\n";
             }
         }
         else if (command == "put") {
@@ -78,7 +94,7 @@ void shellInterface() {
             printHelp();
         }
         else {
-            std::cout << "unkown command. \n";
+            std::cout << "Unknown command.\n";
         }
     }
 }
