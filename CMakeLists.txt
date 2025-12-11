@@ -7,4 +7,9 @@ add_executable(NanoDB main.cpp
         DBEngine.h
         InMemoryEngine.h
         InMemoryEngine.cpp
-        FileEngine.h)
+        FileEngine.h
+        BinaryEngine.h
+        ShellInterface.cpp
+        ShellInterface.h
+        linenoise.c
+        linenoise.h)

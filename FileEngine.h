@@ -72,7 +72,7 @@ public:
             // fs::rename su POSIX (Mac/Linux) è atomico e sovrascrive il file esistente!
             // Non serve nemmeno fare remove prima.
             fs::rename(tempFileName, filename);
-        } catch (const fs::filesystem_error& e) {
+        } catch (const fs::filesystem_error & e) {
             std::cerr << "[Critical Error] Filesystem rename failed: " << e.what() << "\n";
             // Tentativo di fallback: Copia e Cancella
             try {
