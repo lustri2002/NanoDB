@@ -12,4 +12,8 @@ add_executable(NanoDB main.cpp
         ShellInterface.cpp
         ShellInterface.h
         linenoise.c
-        linenoise.h)
+        linenoise.h
+        Server.cpp
+        CommandParser.cpp
+        CommandParser.h
+        Server.h)
