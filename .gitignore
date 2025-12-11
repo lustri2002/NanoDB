@@ -1,0 +1,21 @@
+# --- Build Artifacts (File generati dalla compilazione) ---
+cmake-build-debug/
+cmake-build-release/
+CMakeFiles/
+Makefile
+CMakeCache.txt
+*.cmake
+*.o
+*.obj
+*.dylib
+*.dSYM/
+nanodb  # L'eseguibile finale
+
+# --- IDE Settings (CLion / VS Code / Mac) ---
+.idea/
+.vscode/
+.DS_Store
+
+# --- Database Files (Non vogliamo caricare i dati veri!) ---
+*.bin
+*.tmp
